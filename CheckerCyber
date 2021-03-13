@@ -1,0 +1,305 @@
+ Sejarah
+ 0 kontributor
+303 baris (293 sloc)  5,82 KB
+ 
+# coding = utf-8
+
+#
+# * KODE ULANG? OKE GAK MASSALAH
+# * TAPI YA JANGAN DI JUAL KONTOL
+#
+
+############################################### ##########
+# Nama: Pemeriksa Akun Moonton #
+# File: proxy.py #
+# Penulis: Cyber-Indo #
+# Github: https://github.com/Cyber-Indo1 #
+# Versi Python: 3.7 ++ #
+############################################### ##########
+
+ permintaan impor , os , shutil
+dari  bs4  import  BeautifulSoup  sebagai  bs
+dari  konkurensi . futures  mengimpor  ThreadPoolExecutor
+
+coba : diam . rmtree (
+    'get_proxy / __ pycache__'
+  )
+kecuali : lulus
+
+proxy_list  = []
+valid_proxy  = []
+
+def  prox ():
+  cetak ( '' '
+[1] Ambil proxy dari situs (free-proxy-list.com)
+[2] Ambil proxy dari situs (free-proxy-list.net) [ \ 033 [92mDisarankan \ 033 [0m]
+[3] Dari file
+  '' ' )
+  ask  =  int (
+    masukan (
+      '[?] Pilih:'
+    )
+  )
+  jika  ditanyakan  ==  1 :
+    kembali  proxy_com (
+    )
+  elif  bertanya  ==  2 :
+    kembali  proxy_net (
+    )
+  elif  bertanya  ==  3 :
+    kembali  from_file (
+    )
+  lain :
+    keluar (
+      ' \ n [!] Goblokk ajg, elu butaa yaaa?'
+    )
+
+def  proxy_checker ( prox ):
+  coba :
+    global  valid_proxy
+    jika  permintaan . dapatkan (
+       'http://ip.ml.youngjoygame.com:30220/myip' ,
+          verifikasi = Salah ,
+          proxy = prox ,
+          batas waktu = 10
+        ). status_code  ==  200 :
+      valid_proxy . menambahkan (
+        prox
+      )
+    cetak (
+      end = ' \ r [+] Ditemukan (% s) proxy valid.' % (
+        len (
+          valid_proxy
+        )
+      ),
+      flush = Benar
+    )
+  kecuali : lulus
+
+def  proxy_com ():
+  batas  =  int (
+    masukan (
+      '[?] Batas (mis .: 100):'
+    )
+  )
+  hitung  =  1
+  stop  =  Salah
+  url  =  'https://free-proxy-list.com?page=%s'  % (
+    str (
+      menghitung
+    )
+  )
+  sedangkan  1 :
+    coba :
+      ditemukan  =  Salah
+      r  =  permintaan . dapatkan (
+        url ,
+        headers = { 'user-agent' : 'chrome' }
+      ). teks
+      sup  =  bs (
+        r ,
+        'html.parser'
+      )
+      untuk  x  dalam  sup . find_all ( 'a' ):
+        jika  x . has_attr (
+          'alt'
+        ) ==  Benar :
+          proxy  = (
+            x [ 'alt' ]
+          )
+          ditemukan  =  Benar
+          proxy_list . tambahkan ({
+            'http' : 'http: //' + proxy . strip (),
+            'https' : 'https: //' + proxy . strip ()
+          }) jika  len (
+            proxy . strip (). split ( ':' )
+          ) ==  2  lainnya  Tidak ada
+          cetak (
+            end = ' \ r [+] proxy (% s).' % (
+              len ( proxy_list )
+            ),
+            flush = Benar
+          )
+          jika  len (
+            proxy_list
+          ) ==  batas  atau  len (
+            proxy_list
+          ) >  batas :
+            stop  =  Benar
+            istirahat
+      jika  ditemukan  ==  Salah :
+        cetak (
+          ' \ n [!] Hanya bisa mengambil (% s) proxy'  % (
+            str (
+              len (
+                proxy_list
+              )
+            )
+          )
+        )
+        istirahat
+      elif  stop  ==  Salah :
+        hitung + = 1
+        url  =  'https://free-proxy-list.com?page=%s'  % (
+          str (
+            menghitung
+          )
+        )
+      lain :
+        istirahat
+    kecuali : lulus
+  jika  len (
+    proxy_list
+  ) ! =  0 :
+    cetak (
+      ' \ n [*] Mencari proxy yang valid'
+    )
+    dengan  ThreadPoolExecutor (
+      max_workers = 50
+      ) sebagai  utas :
+      [
+        benang . menyerahkan (
+          proxy_checker , (
+            prox
+          )
+        ) untuk  prox  di  proxy_list
+      ]
+    jika  len (
+      valid_proxy
+    ) ! =  0 :
+      cetak (
+        ' \ n '
+      )
+      kembalikan  valid_proxy
+    lain : keluar (
+      '[!] Maaf tidak ada proxy yang valid silahkan coba lagi :('
+    )
+  lain : keluar (
+    '[!] Maaf proxy tidak ada :('
+  )
+
+def  proxy_net ():
+  cetak (
+    '[*] Mencari proxy yang valid'
+  )
+  r  =  permintaan . dapatkan (
+    'https://free-proxy-list.net/' ,
+    headers = { 'user-agent' : 'chrome' }
+  ). teks
+  sup  =  bs (
+    r ,
+    'html.parser'
+  )
+  proxs  =  sup . temukan (
+    'textarea'
+  ). teks . split (
+    ' \ n '
+  )
+  [
+    proxy_list . tambahkan ({
+      'http' : 'http: //' + e . strip (),
+      'https' : 'https: //' + e . mengupas ()
+    }) jika  len (
+      e . strip (
+      ). split (
+        ':'
+      )
+    ) ==  2  lain  Tidak ada  untuk  e  in  proxs
+  ]
+  jika  len (
+    proxy_list
+  ) ! =  0 :
+    dengan  ThreadPoolExecutor (
+      max_workers =50
+      ) sebagai  utas :
+      [
+        benang . menyerahkan (
+          proxy_checker , (
+            prox
+          )
+        ) untuk  prox  in proxy_list
+      ]
+    jika  len (
+      valid_proxy
+    ) ! =  0 :
+      cetak (
+        ' \ n '
+      )
+      kembalikan  valid_proxy
+    lain : keluar (
+      '[!] Maaf tidak ada proxy yang valid silahkan coba lagi :('
+    )
+  lain : keluar (
+    '[!] Maaf proxy tidak ada :('
+  )
+
+def  from_file ():
+  cetak (
+    ' \ n [!] Pemisah ip: port ex: 10.1.3: 8080'
+  )
+  daftar  =  masukan (
+    '[?] Daftar proxy (mis .: proxy.txt):'
+  )
+  jika  os . jalan . ada (
+    daftar
+  ):
+    untuk  data  di tempat  terbuka (
+      daftar ,
+      'r' ,
+      encoding = 'utf-8'
+    ). garis baca (
+      ):
+      prox  =  data . strip (
+      ). split (
+        ':'
+      )
+      coba :
+        jika  prox [ 0 ] dan  prox [ 1 ]:
+          proxy_list . tambahkan ({
+            'http' : 'http: //' + data . strip (),
+            'https' : 'https: //' + data . strip (),
+          })
+      kecuali : lulus
+    jika  len (
+      proxy_list
+    ) ! =  0 :
+      cetak (
+        '[*] Total (% s) proxy'  % (
+          str (
+            len (
+              proxy_list
+            )
+          )
+        )
+      )
+      cetak (
+        '[*] Mencari proxy yang valid'
+      )
+      dengan  ThreadPoolExecutor (
+        max_workers = 50
+      ) sebagai  utas :
+        [
+          benang . menyerahkan (
+            proxy_checker , (
+              prox
+            )
+          ) untuk  prox  di  proxy_list
+        ]
+      jika  len (
+        valid_proxy
+      ) ! =  0 :
+        cetak (
+          ' \ n '
+        )
+        kembalikan  valid_proxy
+      lain : keluar (
+        '[!] Maaf tidak ada proxy yang valid silahkan coba lagi :('
+      )
+    lain : keluar (
+      '[!] Maaf proxy tidak ada :('
+    )
+  lain : keluar (
+    '[!] File tidak ditemukan "{0}"' . format (
+      daftar
+    )
+  )
